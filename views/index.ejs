@@ -1,0 +1,17 @@
+<!-- index.ejs -->
+
+<html>
+
+<head>
+  <title><%= title %></title>
+</head>
+
+<body>
+  <h1>Messages</h1>
+  <% messages.forEach((message)=> { %>
+    <%- include('message', {message, message}) %>
+  <% }); %>
+  <button>Add New Message</button>
+</body>
+
+</html>
