@@ -1,11 +1,14 @@
 <div class="message">
-  <div>
-    <%= message.user %>
+  <div class="message-top-row">
+    <div class="author">
+      <%= message.user %>
+    </div>
+    <div class="date">
+      <%= message.added %>
+    </div>
   </div>
-  <div>
+  <div class="text">
     <%= message.text %>
   </div>
-  <div>
-    <%= message.added %>
-  </div>
+  <button class="button-open">Open</button>
 </div>

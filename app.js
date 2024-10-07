@@ -2,6 +2,7 @@
 
 const express = require('express');
 const path = require('node:path');
+const formatDate = require('./utils/date_format_utils');
 
 // Create express app
 const app = express();
@@ -10,6 +11,10 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Enable static assets and look for assets in the 'public' directory
+const assetsPath = path.join(__dirname, 'public');
+app.use(express.static(assetsPath));
+
 // Parses form payloads and sets it to the 'req.body'
 app.use(express.urlencoded({ extended: true }));
 
@@ -17,12 +22,12 @@ const messages = [
   {
     text: 'Vamos!',
     user: 'Charlie',
-    added: new Date()
+    added: formatDate(new Date())
   },
   {
     text: 'Come on!',
     user: 'Stanley',
-    added: new Date()
+    added: formatDate(new Date())
   },
 ];
 
@@ -32,11 +37,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/new', (req, res) => {
-  res.render('form', { title: "New Message", links: links });
+  res.render('new_message', { title: "New Message" });
 });
 
 app.post('/new', (req, res) => {
-  messages.push({ text: req.body.messageText, user: req.body.messageUser, added: new Date() });
+  messages.push({ text: req.body.messageText, user: req.body.messageUser, added: formatDate(new Date()) });
   res.redirect('/');
 });
 

@@ -4,14 +4,21 @@
 
 <head>
   <title><%= title %></title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-  <h1>Messages</h1>
-  <% messages.forEach((message)=> { %>
-    <%- include('message', {message, message}) %>
-  <% }); %>
-  <button>Add New Message</button>
+  <div class="header">
+    <h1>Mini Message Board</h1>
+    <a href="/new">
+      <button>New Message</button>
+    </a>
+  </div>
+  <div class="message-board">
+    <% messages.forEach((message)=> { %>
+      <%- include('message', {message, message}) %>
+    <% }); %>
+  </div>
 </body>
 
 </html>

@@ -1,0 +1,28 @@
+<!-- new_message.ejs -->
+
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <form method="POST" action="/new">
+    <h1>
+      New Message
+    </h1>
+    <div class="form">
+      <input type="text" name="messageUser" placeholder="Author">
+      <textarea type="textarea" name="messageText" placeholder="Message"></textarea>
+      <div class="button-row">
+        <a class="link-cancel" href="/">Cancel</a>
+        <button class="button-submit" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+</body>
+
+</html>
