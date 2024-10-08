@@ -6,13 +6,24 @@
   <title>
     <%= title %>
   </title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
   <h1>
     Message Details
   </h1>
+  <div class="message-details">
+    <div>
+      Author: <%= message.user %>
+    </div>
+    <div>
+      Date added: <%= message.added %>
+    </div>
+    <div>
+      Message: <%= message.text %>
+    </div>
+  </div>
 </body>
 
 </html>

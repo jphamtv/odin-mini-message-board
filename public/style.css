@@ -16,15 +16,20 @@ h1 {
   font-size: 2rem;
 }
 
-.message-board {
-}
-
 .message {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin: 1.5rem 0;
   border-bottom: 1px solid lightgray;
+  padding-bottom: 1rem;
+}
+
+.message-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
   padding-bottom: 1rem;
 }
 
@@ -49,23 +54,31 @@ h1 {
 }
 
 button {
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 4px;
-  border: 1px solid lightgray;
+  border: none;
   font-size: 1rem;
+  color: white;
+  background-color: rgb(24, 102, 228);
+  cursor: pointer;
 }
 
 button:hover {
-  background-color: rgb(232, 232, 232);
+  background-color: rgb(19, 89, 202);
 }
 
 button:active {
-  background-color: rgb(223, 223, 223);
+  background-color: rgb(14, 78, 182);
 }
 
-.button-open {
-  width: 4rem;
-  align-self: flex-end;
+a {
+  color: rgb(24, 102, 228);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .form {
@@ -98,13 +111,4 @@ textarea {
 
 .button-submit {
   width: 5rem;
-}
-
-.link-cancel {
-  text-decoration: none;
-  color: black;
-}
-
-.link-cancel:hover {
-  text-decoration: underline;
 }

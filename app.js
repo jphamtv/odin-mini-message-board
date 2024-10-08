@@ -37,7 +37,8 @@ let lastMessageId = 2;
 
 // Routes
 app.get('/', (req, res) => {
-  res.render('index', { title: "Mini Message Board", messages: messages });
+  const reversedMessages = [...messages].reverse();
+  res.render('index', { title: "Mini Message Board", messages: reversedMessages });
 });
 
 app.get('/new', (req, res) => {
@@ -55,8 +56,15 @@ app.post('/new', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/messages/:id', (req, res, next) => {
-  // Logic to fetch the specific message and render the details page
+app.get('/messages/:id', (req, res) => {
+  const messageId = parseInt(req.params.id);
+  const message = messages.find(message => message.id === messageId);
+
+  if (message) {
+    res.render('message_details', { title: 'Message Details', message: message });
+  } else {
+    res.status(404).send('Message not found');
+  }
 });
 
 // Set port for server
