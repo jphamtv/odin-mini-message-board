@@ -46,13 +46,17 @@ app.get('/new', (req, res) => {
 });
 
 app.post('/new', (req, res) => {
+  const { messageText, messageUser } = req.body;
+
   lastMessageId++;
-  messages.push({
+  const newMessage = {
     id: lastMessageId,
-    text: req.body.messageText,
-    user: req.body.messageUser,
+    text: messageText,
+    user: messageUser,
     added: formatDate(new Date())
-  });
+  };
+
+  messages.push(newMessage);
   res.redirect('/');
 });
 
