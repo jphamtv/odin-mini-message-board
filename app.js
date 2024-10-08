@@ -20,16 +20,20 @@ app.use(express.urlencoded({ extended: true }));
 
 const messages = [
   {
+    id: 1,
     text: 'Vamos!',
     user: 'Charlie',
     added: formatDate(new Date())
   },
   {
+    id: 2,
     text: 'Come on!',
     user: 'Stanley',
     added: formatDate(new Date())
   },
 ];
+
+let lastMessageId = 2;
 
 // Routes
 app.get('/', (req, res) => {
@@ -41,8 +45,18 @@ app.get('/new', (req, res) => {
 });
 
 app.post('/new', (req, res) => {
-  messages.push({ text: req.body.messageText, user: req.body.messageUser, added: formatDate(new Date()) });
+  lastMessageId++;
+  messages.push({
+    id: lastMessageId,
+    text: req.body.messageText,
+    user: req.body.messageUser,
+    added: formatDate(new Date())
+  });
   res.redirect('/');
+});
+
+app.get('/messages/:id', (req, res, next) => {
+  // Logic to fetch the specific message and render the details page
 });
 
 // Set port for server
