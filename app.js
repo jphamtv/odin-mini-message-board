@@ -2,6 +2,7 @@
 
 const express = require('express');
 const path = require('node:path');
+const db = require('./db/queries');
 const formatDate = require('./utils/date_format_utils');
 
 // Create express app
@@ -18,56 +19,48 @@ app.use(express.static(assetsPath));
 // Parses form payloads and sets it to the 'req.body'
 app.use(express.urlencoded({ extended: true }));
 
-const messages = [
-  {
-    id: 1,
-    text: 'Vamos!',
-    user: 'Charlie',
-    added: formatDate(new Date())
-  },
-  {
-    id: 2,
-    text: 'Come on!',
-    user: 'Stanley',
-    added: formatDate(new Date())
-  },
-];
-
-let lastMessageId = 2;
-
 // Routes
-app.get('/', (req, res) => {
-  const reversedMessages = [...messages].reverse();
-  res.render('index', { title: "Mini Message Board", messages: reversedMessages });
+app.get('/', async (req, res) => {
+  try {
+    const messages = await db.getAllMessages()
+    console.log('Messages: ', messages);
+    // const reversedMessages = [...messages].reverse();
+    res.render('index', { title: "Mini Message Board", messages: messages });
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    res.status(500).send('An error occurred while fetching messages');
+  }
 });
 
 app.get('/new', (req, res) => {
   res.render('new_message', { title: "New Message" });
 });
 
-app.post('/new', (req, res) => {
-  const { messageText, messageUser } = req.body;
-
-  lastMessageId++;
-  const newMessage = {
-    id: lastMessageId,
-    text: messageText,
-    user: messageUser,
-    added: formatDate(new Date())
-  };
-
-  messages.push(newMessage);
-  res.redirect('/');
+app.post('/new', async (req, res) => {
+  const { username, message } = req.body;
+  
+  try {
+    await insertMessage(username, message);
+    res.redirect('/');
+  } catch (error) {
+    console.log('Error inserting message: ', error);
+    res.status(500).send('An error occurred while storing message');
+  }
 });
 
-app.get('/messages/:id', (req, res) => {
+app.get('/messages/:id', async (req, res) => {
   const messageId = parseInt(req.params.id);
-  const message = messages.find(message => message.id === messageId);
 
-  if (message) {
-    res.render('message_details', { title: 'Message Details', message: message });
-  } else {
-    res.status(404).send('Message not found');
+  try {
+    const message = await db.getMessage(messageId);
+    if (message) {
+      res.render('message_details', { title: 'Message Details', message: message });
+    } else {
+      res.status(404).send('Message not found');
+    }
+  } catch (error) {
+    console.log('Error fetching message: ', error);
+    res.status(500).send('An error occurred while fetching the message');
   }
 });
 

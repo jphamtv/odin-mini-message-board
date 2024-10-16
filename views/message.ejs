@@ -1,14 +1,14 @@
 <div class="message">
   <div class="message-top-row">
     <div class="author">
-      <%= message.user %>
+      <%= message.username %>
     </div>
     <div class="date">
-      <%= message.added %>
+      <%= message.date_added %>
     </div>
   </div>
   <div class="text">
-    <%= message.text %>
+    <%= message.message %>
   </div>
   <div class="button-row">
     <a href="/messages/<%= message.id %>" class="button-open">Open</a>
