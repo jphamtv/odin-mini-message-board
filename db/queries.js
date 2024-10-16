@@ -1,4 +1,5 @@
 // db/queries.js
+const pool = require('./pool');
 
 async function getAllMessages() {
   const { rows } = await pool.query('SELECT * FROM messages');
@@ -10,11 +11,11 @@ async function insertMessage(username, message) {
 }
 
 async function getMessage(id) {
-  const { row } = await pool.query('SELECT * FROM messages WHERE id=$1', [id]);
-  return row;
+  const { rows } = await pool.query('SELECT * FROM messages WHERE id=$1', [id]);
+  return rows[0] || null;
 }
 
-module.export = {
+module.exports = {
   getAllMessages,
   insertMessage,
   getMessage,

@@ -22,10 +22,14 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.get('/', async (req, res) => {
   try {
-    const messages = await db.getAllMessages()
-    console.log('Messages: ', messages);
+    const messages = await db.getAllMessages();
+
+    // Format the date for each message
+    const formattedMessages = messages.map(message => ({ ...message, formatted_date: formatDate(message.date_added) }));
+
+    console.log('Formatted Messages: ', formattedMessages);
     // const reversedMessages = [...messages].reverse();
-    res.render('index', { title: "Mini Message Board", messages: messages });
+    res.render('index', { title: "Mini Message Board", messages: formattedMessages });
   } catch (error) {
     console.error('Error fetching messages:', error);
     res.status(500).send('An error occurred while fetching messages');
@@ -38,9 +42,9 @@ app.get('/new', (req, res) => {
 
 app.post('/new', async (req, res) => {
   const { username, message } = req.body;
-  
+
   try {
-    await insertMessage(username, message);
+    await db.insertMessage(username, message);
     res.redirect('/');
   } catch (error) {
     console.log('Error inserting message: ', error);
@@ -54,7 +58,8 @@ app.get('/messages/:id', async (req, res) => {
   try {
     const message = await db.getMessage(messageId);
     if (message) {
-      res.render('message_details', { title: 'Message Details', message: message });
+      const formattedMessage = { ...message, formatted_date: formatDate(message.date_added) };
+      res.render('message_details', { title: 'Message Details', message: formattedMessage });
     } else {
       res.status(404).send('Message not found');
     }
